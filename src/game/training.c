@@ -211,16 +211,22 @@ bool frIsWeaponAvailable(s32 weapon)
 	}
 #endif
 
-	if (weapon < WEAPON_FALCON2 || weapon > WEAPON_REMOTEMINE
-			|| weapon == WEAPON_PSYCHOSISGUN
-			|| weapon == WEAPON_COMBATBOOST
-			|| weapon == WEAPON_NBOMB) {
-		return false;
-	}
+    extern bool g_AllWeaponsInTrainingEnabled;
 
-	if (weapon == WEAPON_FALCON2 || weapon == WEAPON_CMP150) {
-		return true;
-	}
+    if (g_AllWeaponsInTrainingEnabled) {
+        return true;
+    }
+
+    if (weapon < WEAPON_FALCON2 || weapon > WEAPON_REMOTEMINE
+            || weapon == WEAPON_PSYCHOSISGUN
+            || weapon == WEAPON_COMBATBOOST
+            || weapon == WEAPON_NBOMB) {
+        return false;
+    }
+
+    if (weapon == WEAPON_FALCON2 || weapon == WEAPON_CMP150) {
+        return true;
+    }
 
 #if VERSION < VERSION_NTSC_1_0
 #ifdef DEBUG

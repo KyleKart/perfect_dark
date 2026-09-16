@@ -78,6 +78,8 @@
 #include "types.h"
 #include "string.h"
 
+extern bool g_UnlockedDoorsEnabled;
+
 void rng2SetSeed(u32 seed);
 
 struct weaponobj *g_Proxies[30];
@@ -18933,10 +18935,12 @@ bool doorIsUnlocked(struct prop *playerprop, struct prop *doorprop)
 	struct doorobj *door = doorprop->door;
 	bool canopen = false;
 
-	if (door->keyflags == 0) {
-		canopen = true;
-	} else if (invHasKeyFlags(door->keyflags)) {
-		canopen = true;
+    if (g_UnlockedDoorsEnabled) {
+        canopen = true;
+    } else if (door->keyflags == 0) {
+        canopen = true;
+    } else if (invHasKeyFlags(door->keyflags)) {
+        canopen = true;
 	} else {
 		if (posIsInFrontOfDoor(&playerprop->pos, door)) {
 			if ((door->base.flags2 & OBJFLAG2_LOCKEDBACK)

@@ -2507,8 +2507,14 @@ struct healthdamagetype g_HealthDamageTypes[] = {
  * Make the health bar appear. If called while the health bar is already open,
  * the health displayed will be updated and the show timer will be reset.
  */
+extern bool g_AlwaysShowHealthEnabled;
+
 void playerDisplayHealth(void)
 {
+	if (g_AlwaysShowHealthEnabled) {
+    g_Vars.currentplayer->healthshowmode = HEALTHSHOWMODE_CURRENT;
+	}
+
 	switch (g_Vars.currentplayer->healthshowmode) {
 	case HEALTHSHOWMODE_HIDDEN:
 		g_Vars.currentplayer->oldhealth = g_Vars.currentplayer->bondhealth;
@@ -4599,6 +4605,10 @@ Gfx *playerRenderShield(Gfx *gdl)
 
 Gfx *playerRenderHud(Gfx *gdl)
 {
+	if (g_AlwaysShowHealthEnabled) {
+	playerDisplayHealth();
+	}
+
 	if (g_Vars.currentplayer->cameramode == CAMERAMODE_THIRDPERSON) {
 		gdl = boltbeamsRender(gdl);
 		gdl = bgRenderArtifacts(gdl);

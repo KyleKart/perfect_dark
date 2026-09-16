@@ -95,6 +95,7 @@ static MenuItemHandlerResult menuhandlerSelectPlayer(s32 operation, struct menui
 	return 0;
 }
 
+
 static MenuItemHandlerResult menuhandlerMouseEnabled(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	switch (operation) {
@@ -106,6 +107,84 @@ static MenuItemHandlerResult menuhandlerMouseEnabled(s32 operation, struct menui
 	}
 
 	return 0;
+}
+
+bool g_UnlockedDoorsEnabled = false;
+static MenuItemHandlerResult menuhandlerUnlockedDoors(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_UnlockedDoorsEnabled;
+    case MENUOP_SET:
+        g_UnlockedDoorsEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_TheDuelAllModesEnabled = false;
+static MenuItemHandlerResult menuhandlerTheDuelAllModes(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_TheDuelAllModesEnabled;
+    case MENUOP_SET:
+        g_TheDuelAllModesEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_KeepWeaponsAfterTrainingEnabled = false;
+static MenuItemHandlerResult menuhandlerKeepWeaponsAfterTraining(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_KeepWeaponsAfterTrainingEnabled;
+    case MENUOP_SET:
+        g_KeepWeaponsAfterTrainingEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_AllWeaponsInTrainingEnabled = false;
+static MenuItemHandlerResult menuhandlerAllWeaponsInTraining(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_AllWeaponsInTrainingEnabled;
+    case MENUOP_SET:
+        g_AllWeaponsInTrainingEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_AlwaysShowHealthEnabled = false;
+static MenuItemHandlerResult menuhandlerAlwaysShowHealth(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_AlwaysShowHealthEnabled;
+    case MENUOP_SET:
+        g_AlwaysShowHealthEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_TrueUnlimitedAmmoEnabled = false;
+static MenuItemHandlerResult menuhandlerTrueUnlimitedAmmo(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_TrueUnlimitedAmmoEnabled;
+    case MENUOP_SET:
+        g_TrueUnlimitedAmmoEnabled = data->checkbox.value;
+        break;
+    }
+    return 0;
 }
 
 static MenuItemHandlerResult menuhandlerMouseAimLock(s32 operation, struct menuitem *item, union handlerdata *data)
@@ -1828,6 +1907,178 @@ struct menuitem g_ExtendedBindsMenuItems[] = {
 	{ MENUITEMTYPE_END },
 };
 
+struct menuitem g_ExtendedEBMenuItems[] = {
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"QOL and other fun things.\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Unlock All Doors\n",
+		0,
+		menuhandlerUnlockedDoors,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Open any locked door.\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"The Duel - All Modes\n",
+		0,
+		menuhandlerTheDuelAllModes,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Play it in Co-Op and Counter-Op.\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Keep Weapons From Firing Range\n",
+		0,
+		menuhandlerKeepWeaponsAfterTraining,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Leave with your weapons.\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"All Weapons In Firing Range\n",
+		0,
+		menuhandlerAllWeaponsInTraining,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Enable every weapon. (buggy)\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Always show health\n",
+		0,
+		menuhandlerAlwaysShowHealth,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Force render the healthbar.\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"True Unlimited Ammo\n",
+		0,
+		menuhandlerTrueUnlimitedAmmo,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Apply cheat to all weapons. (buggy)\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SELECTABLE,
+		0,
+		MENUITEMFLAG_SELECTABLE_CLOSESDIALOG,
+		L_OPTIONS_213, // "Back"
+		0,
+		NULL,
+	},
+	{ MENUITEMTYPE_END },
+};
+
 static MenuItemHandlerResult menuhandlerDoBind(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	if (!menuIsDialogOpen(&g_ExtendedBindKeyMenuDialog)) {
@@ -1918,6 +2169,17 @@ struct menudialogdef g_ExtendedBindsMenuDialog = {
 	NULL,
 };
 
+static char g_ExtendedEBMenuTitle[] = "ElmoBear Extras";
+struct menudialogdef g_ExtendedEBMenuDialog = {
+	MENUDIALOGTYPE_DEFAULT,
+	(uintptr_t)g_ExtendedEBMenuTitle,
+	g_ExtendedEBMenuItems,
+	NULL,
+	MENUDIALOGFLAG_LITERAL_TEXT | MENUDIALOGFLAG_STARTSELECTS | MENUDIALOGFLAG_IGNOREBACK,
+	NULL,
+};
+
+
 static MenuItemHandlerResult menuhandlerOpenControllerMenu(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	if (operation == MENUOP_SET) {
@@ -1941,6 +2203,15 @@ static MenuItemHandlerResult menuhandlerOpenBindsMenu(s32 operation, struct menu
 	if (operation == MENUOP_SET) {
 		g_ExtNextDialog = &g_ExtendedBindsMenuDialog;
 		menuPushDialog(&g_ExtendedSelectPlayerMenuDialog);
+	}
+	return 0;
+}
+
+static MenuItemHandlerResult menuhandlerOpenEBMenu(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+	if (operation == MENUOP_SET) {
+		g_ExtNextDialog = &g_ExtendedEBMenuDialog;
+		menuPushDialog(&g_ExtendedEBMenuDialog);
 	}
 	return 0;
 }
@@ -1993,6 +2264,14 @@ struct menuitem g_ExtendedMenuItems[] = {
 		(uintptr_t)"Key Bindings\n",
 		0,
 		menuhandlerOpenBindsMenu,
+	},
+	{
+		MENUITEMTYPE_SELECTABLE,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"ElmoBear Extras\n",
+		0,
+		menuhandlerOpenEBMenu,
 	},
 	{
 		MENUITEMTYPE_SEPARATOR,

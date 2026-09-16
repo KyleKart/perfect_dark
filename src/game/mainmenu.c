@@ -1776,6 +1776,8 @@ struct solostage g_SoloStages[NUM_SOLOSTAGES] = {
 	{ STAGE_DUEL,          0x1c, L_OPTIONS_171, L_OPTIONS_003, L_OPTIONS_171   },
 };
 
+extern bool g_TheDuelAllModesEnabled;
+
 s32 getNumUnlockedSpecialStages(void)
 {
 	s32 count = 0;
@@ -1788,15 +1790,17 @@ s32 getNumUnlockedSpecialStages(void)
 		}
 	}
 
-	if (g_MissionConfig.iscoop || g_MissionConfig.isanti) {
-		offsetforduel = 0;
-	} else {
-		for (i = 0; i < (VERSION >= VERSION_NTSC_1_0 ? 32 : 33); i++) {
-			if (ciGetFiringRangeScore(i) <= 0) {
-				offsetforduel = 0;
-			}
-		}
-	}
+if (g_TheDuelAllModesEnabled) {
+        offsetforduel = 1;
+    } else if (g_MissionConfig.iscoop || g_MissionConfig.isanti) {
+        offsetforduel = 0;
+    } else {
+        for (i = 0; i < (VERSION >= VERSION_NTSC_1_0 ? 32 : 33); i++) {
+            if (ciGetFiringRangeScore(i) <= 0) {
+                offsetforduel = 0;
+            }
+        }
+    }
 
 	return count + offsetforduel;
 }

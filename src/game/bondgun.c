@@ -11887,6 +11887,8 @@ bool bgunIsUsingSecondaryFunction(void)
 	return false;
 }
 
+extern bool g_KeepWeaponsAfterTrainingEnabled;
+
 /**
  * Tick gun-related things during first-person gameplay.
  *
@@ -11898,29 +11900,33 @@ void bgunTickGameplay(bool triggeron)
 	struct player *player = g_Vars.currentplayer;
 	s32 i;
 
-	// Remove weapons if in passive mode
-	if (g_Vars.currentplayer->gunctrl.passivemode) {
-		struct chrdata *chr = g_Vars.currentplayer->prop->chr;
-		triggeron = false;
+    // Remove weapons if in passive mode
+    if (g_Vars.currentplayer->gunctrl.passivemode) {
+        struct chrdata *chr = g_Vars.currentplayer->prop->chr;
+        triggeron = false;
 
-		if (invGetCount() > 1) {
-			invClear();
-			invGiveSingleWeapon(WEAPON_UNARMED);
-		}
+        // Only strip weapons if the custom option is NOT enabled
+        if (!g_KeepWeaponsAfterTrainingEnabled) {
+            if (invGetCount() > 1) {
+                invClear();
+                invGiveSingleWeapon(WEAPON_UNARMED);
+            }
 
-		if (g_Vars.currentplayer->gunctrl.weaponnum != WEAPON_UNARMED
-				&& g_Vars.currentplayer->gunctrl.switchtoweaponnum != WEAPON_UNARMED) {
-			bgunEquipWeapon(WEAPON_UNARMED);
-		}
+            if (g_Vars.currentplayer->gunctrl.weaponnum != WEAPON_UNARMED
+                    && g_Vars.currentplayer->gunctrl.switchtoweaponnum != WEAPON_UNARMED) {
+                bgunEquipWeapon(WEAPON_UNARMED);
+            }
 
-		g_Vars.currentplayer->gunctrl.dualwielding = false;
-		g_Vars.currentplayer->devicesactive = 0;
+            g_Vars.currentplayer->gunctrl.dualwielding = false;
+        }
 
-		chr->cloakpause = 0;
-		chr->cloakfadefrac = 0;
-		chr->cloakfadefinished = false;
-		chr->hidden &= ~CHRHFLAG_CLOAKED;
-	}
+        g_Vars.currentplayer->devicesactive = 0;
+
+        chr->cloakpause = 0;
+        chr->cloakfadefrac = 0;
+        chr->cloakfadefinished = false;
+        chr->hidden &= ~CHRHFLAG_CLOAKED;
+    }
 
 	// Remove throwable items from inventory if there's no more left
 	for (i = 0; i < invGetCount(); i++) {
@@ -12260,8 +12266,14 @@ s32 bgunGetCapacityByAmmotype(s32 ammotype)
 	return g_AmmoTypes[ammotype].capacity;
 }
 
+extern bool g_TrueUnlimitedAmmoEnabled;
+
 bool bgunAmmotypeAllowsUnlimitedAmmo(u32 ammotype)
 {
+	if (g_TrueUnlimitedAmmoEnabled) {
+		return true;
+	}
+
 	switch (ammotype) {
 	case AMMOTYPE_REMOTE_MINE:
 		if (g_Vars.stagenum == STAGE_CHICAGO) {
