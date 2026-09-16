@@ -1912,7 +1912,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"QOL and other fun things.\n",
+		(uintptr_t)"Some random fun things.\n",
 		0,
 		NULL,
 	},
