@@ -479,6 +479,8 @@ s32 bgunGetUnequippedReloadIndex(s32 weaponnum)
 	return -1;
 }
 
+extern bool g_TrueUnlimitedAmmoEnabled;
+
 /**
  * The magnums, shotgun and crossbow are special because that the game remembers
  * how much ammo is loaded in their clips when the weapon is not being used.
@@ -12038,9 +12040,11 @@ void bgunTickGameplay(bool triggeron)
 				}
 			}
 
-			bgunGiveMaxAmmo(false);
+			bgunGiveMaxAmmo(g_TrueUnlimitedAmmoEnabled);
 		} else if (cheatIsActive(CHEAT_UNLIMITEDAMMO)) {
-			bgunGiveMaxAmmo(false);
+			bgunGiveMaxAmmo(g_TrueUnlimitedAmmoEnabled);
+		} else if (g_TrueUnlimitedAmmoEnabled) {
+			bgunGiveMaxAmmo(true);
 		}
 	}
 
@@ -12266,14 +12270,8 @@ s32 bgunGetCapacityByAmmotype(s32 ammotype)
 	return g_AmmoTypes[ammotype].capacity;
 }
 
-extern bool g_TrueUnlimitedAmmoEnabled;
-
 bool bgunAmmotypeAllowsUnlimitedAmmo(u32 ammotype)
 {
-	if (g_TrueUnlimitedAmmoEnabled) {
-		return true;
-	}
-
 	switch (ammotype) {
 	case AMMOTYPE_REMOTE_MINE:
 		if (g_Vars.stagenum == STAGE_CHICAGO) {

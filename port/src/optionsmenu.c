@@ -187,6 +187,19 @@ static MenuItemHandlerResult menuhandlerTrueUnlimitedAmmo(s32 operation, struct 
     return 0;
 }
 
+bool g_EnemyClassicWeapons = false;
+static MenuItemHandlerResult menuhandlerEnemyClassicWeapons(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_EnemyClassicWeapons;
+    case MENUOP_SET:
+        g_EnemyClassicWeapons = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
 static MenuItemHandlerResult menuhandlerMouseAimLock(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	switch (operation) {
@@ -1912,7 +1925,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Some random fun things.\n",
+		(uintptr_t)"Fun or useful extra toggles.\n",
 		0,
 		NULL,
 	},
@@ -1952,7 +1965,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_CHECKBOX,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"The Duel - All Modes\n",
+		(uintptr_t)"The Duel - Unlocked\n",
 		0,
 		menuhandlerTheDuelAllModes,
 	},
@@ -1960,7 +1973,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Play it in Co-Op and Counter-Op.\n",
+		(uintptr_t)"Solo, Co-Op, and Counter-Op.\n",
 		0,
 		NULL,
 	},
@@ -2008,7 +2021,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Enable every weapon. (buggy)\n",
+		(uintptr_t)"Enables every weapon. (buggy)\n",
 		0,
 		NULL,
 	},
@@ -2024,7 +2037,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_CHECKBOX,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Always show health\n",
+		(uintptr_t)"Always Show Health\n",
 		0,
 		menuhandlerAlwaysShowHealth,
 	},
@@ -2032,7 +2045,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Force render the healthbar.\n",
+		(uintptr_t)"Force renders the health bar.\n",
 		0,
 		NULL,
 	},
@@ -2048,7 +2061,7 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_CHECKBOX,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"True Unlimited Ammo\n",
+		(uintptr_t)"Forced Unlimited Ammo\n",
 		0,
 		menuhandlerTrueUnlimitedAmmo,
 	},
@@ -2056,7 +2069,31 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_LABEL,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Apply cheat to all weapons. (buggy)\n",
+		(uintptr_t)"Applies to all weapons. (buggy)\n",
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Enemy Classic Weapons\n",
+		0,
+		menuhandlerEnemyClassicWeapons,
+	},
+	{
+		MENUITEMTYPE_LABEL,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Gives enemies classic weapons.\n",
 		0,
 		NULL,
 	},
@@ -2169,13 +2206,13 @@ struct menudialogdef g_ExtendedBindsMenuDialog = {
 	NULL,
 };
 
-static char g_ExtendedEBMenuTitle[] = "ElmoBear Extras";
+static char g_ExtendedEBMenuTitle[] = "Cheats";
 struct menudialogdef g_ExtendedEBMenuDialog = {
 	MENUDIALOGTYPE_DEFAULT,
 	(uintptr_t)g_ExtendedEBMenuTitle,
 	g_ExtendedEBMenuItems,
 	NULL,
-	MENUDIALOGFLAG_LITERAL_TEXT | MENUDIALOGFLAG_STARTSELECTS | MENUDIALOGFLAG_IGNOREBACK,
+	MENUDIALOGFLAG_LITERAL_TEXT | MENUDIALOGFLAG_STARTSELECTS,
 	NULL,
 };
 
@@ -2269,7 +2306,7 @@ struct menuitem g_ExtendedMenuItems[] = {
 		MENUITEMTYPE_SELECTABLE,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"ElmoBear Extras\n",
+		(uintptr_t)"Cheats\n",
 		0,
 		menuhandlerOpenEBMenu,
 	},

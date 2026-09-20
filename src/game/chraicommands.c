@@ -4121,6 +4121,7 @@ bool aiSpawnChrAtChr(void)
 /**
  * @cmd 00c8
  */
+ extern bool g_EnemyClassicWeapons;
 bool aiTryEquipWeapon(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
@@ -4210,6 +4211,51 @@ bool aiTryEquipWeapon(void)
 				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
 				break;
 			}
+		} else if (g_EnemyClassicWeapons) {
+            switch (cmd[4]) {
+                case WEAPON_FALCON2:
+                case WEAPON_FALCON2_SILENCER:
+                case WEAPON_FALCON2_SCOPE:
+                    cmd[4] = WEAPON_PP9I;
+                    model = MODEL_CHRWPPK;
+                    break;
+                case WEAPON_MAGSEC4:
+                case WEAPON_MAULER:
+                case WEAPON_PHOENIX:
+                case WEAPON_DY357MAGNUM:
+                case WEAPON_DY357LX:
+                    cmd[4] = WEAPON_CC13;
+                    model = MODEL_CHRTT33;
+                    break;
+                case WEAPON_CMP150:
+                case WEAPON_CALLISTO:
+                    cmd[4] = WEAPON_ZZT;
+                    model = MODEL_CHRUZI;
+                    break;
+                case WEAPON_CYCLONE:
+                case WEAPON_REAPER:
+                    cmd[4] = WEAPON_DMC;
+                    model = MODEL_CHRMP5K;
+                    break;
+                case WEAPON_RCP120:
+                case WEAPON_LAPTOPGUN:
+                    cmd[4] = WEAPON_RCP45;
+                    model = MODEL_CHRFNP90;
+                    break;
+                case WEAPON_DRAGON:
+                case WEAPON_SUPERDRAGON:
+                case WEAPON_K7AVENGER:
+                    cmd[4] = WEAPON_KF7SPECIAL;
+                    model = MODEL_CHRKALASH;
+                    break;
+                case WEAPON_AR34:
+                case WEAPON_SNIPERRIFLE:
+                    cmd[4] = WEAPON_AR53;
+                    model = MODEL_CHRM16;
+                    break;
+            }
+            // Give the classic weapon we just mapped
+            prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
 		} else {
 			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
 		}

@@ -615,6 +615,7 @@ void setupCreateObject(struct defaultobj *obj, s32 cmdindex)
  * The Marquis of Queensbury Rules (everyone unarmed) and Enemy Rockets cheats
  * are implemented here.
  */
+ extern bool g_EnemyClassicWeapons;
 void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 {
 	if (weapon->base.flags & OBJFLAG_ASSIGNEDTOCHR) {
@@ -645,6 +646,74 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 				}
 #endif
 			} else {
+				if (g_EnemyClassicWeapons) {
+				    switch (weapon->weaponnum) {
+				        case WEAPON_FALCON2:
+				        case WEAPON_FALCON2_SILENCER:
+				        case WEAPON_FALCON2_SCOPE:
+				            weapon->weaponnum = WEAPON_PP9I;
+				            weapon->base.modelnum = MODEL_CHRWPPK;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_MAGSEC4:
+				        case WEAPON_MAULER:
+				        case WEAPON_PHOENIX:
+				        case WEAPON_DY357MAGNUM:
+				        case WEAPON_DY357LX:
+				            weapon->weaponnum = WEAPON_CC13;
+				            weapon->base.modelnum = MODEL_CHRTT33;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_CMP150:
+				        case WEAPON_CALLISTO:
+				            weapon->weaponnum = WEAPON_ZZT;
+				            weapon->base.modelnum = MODEL_CHRUZI;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_CYCLONE:
+				        case WEAPON_REAPER:
+				            weapon->weaponnum = WEAPON_DMC;
+				            weapon->base.modelnum = MODEL_CHRMP5K;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_RCP120:
+				        case WEAPON_LAPTOPGUN:
+				            weapon->weaponnum = WEAPON_RCP45;
+				            weapon->base.modelnum = MODEL_CHRFNP90;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_DRAGON:
+						case WEAPON_SUPERDRAGON:
+				        case WEAPON_K7AVENGER:
+				            weapon->weaponnum = WEAPON_KF7SPECIAL;
+				            weapon->base.modelnum = MODEL_CHRKALASH;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_AR34:
+				        case WEAPON_SNIPERRIFLE:
+				            weapon->weaponnum = WEAPON_AR53;
+				            weapon->base.modelnum = MODEL_CHRM16;
+				            weapon->base.extrascale = 256;
+				            break;
+
+				        case WEAPON_SHOTGUN:
+				        case WEAPON_FARSIGHT:
+				        case WEAPON_COMBATKNIFE:
+				        case WEAPON_CROSSBOW:
+				        case WEAPON_TRANQUILIZER:
+				        case WEAPON_DEVASTATOR:
+				        case WEAPON_ROCKETLAUNCHER:
+				        case WEAPON_SLAYER:
+				            break;
+				    }
+				}
+
 				if (cheatIsActive(CHEAT_ENEMYROCKETS)) {
 					switch (weapon->weaponnum) {
 					case WEAPON_FALCON2:

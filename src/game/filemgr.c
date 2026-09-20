@@ -3407,9 +3407,9 @@ struct menuitem g_FilemgrFileSelectMenuItems[] = {
 
 struct menudialogdef g_FilemgrFileSelectMenuDialog = {
 	MENUDIALOGTYPE_DEFAULT,
-	L_OPTIONS_095, // "Perfect Dark"
+	(uintptr_t)"Perfect Dark EB\n",
 	g_FilemgrFileSelectMenuItems,
 	filemgrMainMenuDialog,
-	MENUDIALOGFLAG_IGNOREBACK,
+	MENUDIALOGFLAG_IGNOREBACK | MENUDIALOGFLAG_LITERAL_TEXT,
 	&g_FilemgrOperationsMenuDialog,
 };
