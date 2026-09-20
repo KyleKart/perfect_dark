@@ -4254,7 +4254,6 @@ bool aiTryEquipWeapon(void)
                     model = MODEL_CHRM16;
                     break;
             }
-            // Give the classic weapon we just mapped
             prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
 		} else {
 			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
