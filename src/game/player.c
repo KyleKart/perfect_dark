@@ -76,6 +76,8 @@
 #include "platform.h"
 #endif
 
+extern struct cheat g_Cheats[];
+
 s32 g_DefaultWeapons[2];
 f32 g_MpSwirlRotateSpeed;
 f32 g_MpSwirlAngleDegrees;
@@ -2508,6 +2510,7 @@ struct healthdamagetype g_HealthDamageTypes[] = {
  * the health displayed will be updated and the show timer will be reset.
  */
 extern bool g_AlwaysShowHealthEnabled;
+extern bool g_TimedFail;
 
 void playerDisplayHealth(void)
 {

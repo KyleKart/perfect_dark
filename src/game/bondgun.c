@@ -71,6 +71,10 @@
 #define MASTERLOADSTATE_CARTS  3
 #define MASTERLOADSTATE_LOADED 4
 
+extern bool g_AlwaysShowGunFunction;
+extern bool g_AlwaysShowGunName;
+extern bool g_HideGunSquare;
+
 // Max downwards pitch when changing guns or reloading a classic gun
 #define MAX_PITCH 0.87252569198608f
 
@@ -12892,7 +12896,9 @@ Gfx *bgunDrawHud(Gfx *gdl)
 
 	gdl = textSetPrimColour(gdl, fncolour);
 
-	gDPFillRectangleScaled(gdl++, xpos - 13, bottom - 11, xpos - 2, bottom);
+	if(g_HideGunSquare){
+      	gDPFillRectangleScaled(gdl++, xpos - 13, bottom - 11, xpos - 2, bottom);
+	}
 
 	gdl = text0f153838(gdl);
 
@@ -12938,16 +12944,23 @@ Gfx *bgunDrawHud(Gfx *gdl)
 #if VERSION == VERSION_JPN_FINAL
 			y = bottom - textheight - 10;
 #else
-			y = bottom - textheight - 15;
+			if(!g_HideGunSquare){
+      			y = bottom - textheight - 11;
+			} else {
+				y = bottom - textheight - 15;
+			}
 #endif
+			if (g_AlwaysShowGunName){
+				ctrl->guntypetimer = 192;
+			}
 
 			if (ctrl->guntypetimer > 192) {
 				alpha = 255 - (ctrl->guntypetimer - 192) * 255 / 63U;
 				colour = (colour & 0xffffff00) | alpha;
 				if (0xffffff00);
 			}
-
-			gdl = textSetPrimColour(gdl, 0);
+		
+    		gdl = textSetPrimColour(gdl, 0);
 
 			gDPFillRectangleScaled(gdl++, x - 1, y - 1, xpos - 11, bottom);
 
@@ -13001,13 +13014,20 @@ Gfx *bgunDrawHud(Gfx *gdl)
 				if (textwidth > ctrl->fnstrtimer * 3) {
 					textwidth = ctrl->fnstrtimer * 3;
 				}
+				if(!g_HideGunSquare){
+      				x = xpos - textwidth - 2;
+				} else {
+					x = xpos - textwidth - 13;
+				}
 
-				x = xpos - textwidth - 13;
 #if VERSION == VERSION_JPN_FINAL
 				y = bottom - textheight + 3;
 #else
 				y = bottom - textheight - 1;
 #endif
+				if (g_AlwaysShowGunFunction){
+				ctrl->fnstrtimer = 192;
+				}
 
 				if (ctrl->fnstrtimer > 192) {
 					alpha = 255 - (ctrl->fnstrtimer - 192) * 255 / 63U;

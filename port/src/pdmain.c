@@ -99,6 +99,7 @@ u32 var8005dd50 = 0x00000000;
 s32 g_MainChangeToStageNum = -1;
 bool g_MainIsDebugMenuOpen = false;
 
+
 struct stageallocation g_StageAllocations8Mb[] = {
 	{ STAGE_CITRAINING,    "-ml0 -me0 -mgfx120 -mvtx98 -ma400"             },
 	{ STAGE_DEFECTION,     "-ml0 -me0 -mgfx110 -mgfxtra80 -mvtx100 -ma700" },

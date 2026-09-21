@@ -174,6 +174,45 @@ static MenuItemHandlerResult menuhandlerAlwaysShowHealth(s32 operation, struct m
     return 0;
 }
 
+bool g_AlwaysShowGunName = false;
+static MenuItemHandlerResult menuhandlerAlwaysShowGunName(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_AlwaysShowGunName;
+    case MENUOP_SET:
+        g_AlwaysShowGunName = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_AlwaysShowGunFunction = false;
+static MenuItemHandlerResult menuhandlerAlwaysShowGunFunction(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_AlwaysShowGunFunction;
+    case MENUOP_SET:
+        g_AlwaysShowGunFunction = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_HideGunSquare = true;
+static MenuItemHandlerResult menuhandlerHideGunSquare(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_HideGunSquare;
+    case MENUOP_SET:
+        g_HideGunSquare = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
 bool g_TrueUnlimitedAmmoEnabled = false;
 static MenuItemHandlerResult menuhandlerTrueUnlimitedAmmo(s32 operation, struct menuitem *item, union handlerdata *data)
 {
@@ -1922,22 +1961,6 @@ struct menuitem g_ExtendedBindsMenuItems[] = {
 
 struct menuitem g_ExtendedEBMenuItems[] = {
 	{
-		MENUITEMTYPE_LABEL,
-		0,
-		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Fun or useful extra toggles.\n",
-		0,
-		NULL,
-	},
-	{
-		MENUITEMTYPE_SEPARATOR,
-		0,
-		0,
-		0,
-		0,
-		NULL,
-	},
-	{
 		MENUITEMTYPE_CHECKBOX,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
@@ -2037,30 +2060,6 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		MENUITEMTYPE_CHECKBOX,
 		0,
 		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Always Show Health\n",
-		0,
-		menuhandlerAlwaysShowHealth,
-	},
-	{
-		MENUITEMTYPE_LABEL,
-		0,
-		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Force renders the health bar.\n",
-		0,
-		NULL,
-	},
-	{
-		MENUITEMTYPE_SEPARATOR,
-		0,
-		0,
-		0,
-		0,
-		NULL,
-	},
-	{
-		MENUITEMTYPE_CHECKBOX,
-		0,
-		MENUITEMFLAG_LITERAL_TEXT,
 		(uintptr_t)"Forced Unlimited Ammo\n",
 		0,
 		menuhandlerTrueUnlimitedAmmo,
@@ -2096,6 +2095,66 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		(uintptr_t)"Gives enemies classic weapons.\n",
 		0,
 		NULL,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_SELECTABLE,
+		0,
+		MENUITEMFLAG_SELECTABLE_CLOSESDIALOG,
+		L_OPTIONS_213, // "Back"
+		0,
+		NULL,
+	},
+	{ MENUITEMTYPE_END },
+};
+
+struct menuitem g_ExtendedDisplayMenuItems[] = {
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Always Show Health Bar\n",
+		0,
+		menuhandlerAlwaysShowHealth,
+	},
+	{
+		MENUITEMTYPE_SEPARATOR,
+		0,
+		0,
+		0,
+		0,
+		NULL,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Always Show Gun Name\n",
+		0,
+		menuhandlerAlwaysShowGunName,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Always Show Gun Function\n",
+		0,
+		menuhandlerAlwaysShowGunFunction,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Show Gun Function Square\n",
+		0,
+		menuhandlerHideGunSquare,
 	},
 	{
 		MENUITEMTYPE_SEPARATOR,
@@ -2206,11 +2265,21 @@ struct menudialogdef g_ExtendedBindsMenuDialog = {
 	NULL,
 };
 
-static char g_ExtendedEBMenuTitle[] = "Cheats";
+static char g_ExtendedEBMenuTitle[] = "Extended Cheats";
 struct menudialogdef g_ExtendedEBMenuDialog = {
 	MENUDIALOGTYPE_DEFAULT,
 	(uintptr_t)g_ExtendedEBMenuTitle,
 	g_ExtendedEBMenuItems,
+	NULL,
+	MENUDIALOGFLAG_LITERAL_TEXT | MENUDIALOGFLAG_STARTSELECTS,
+	NULL,
+};
+
+static char g_ExtendedDisplayMenuTitle[] = "Extended Display Options";
+struct menudialogdef g_ExtendedDisplayMenuDialog = {
+	MENUDIALOGTYPE_DEFAULT,
+	(uintptr_t)g_ExtendedDisplayMenuTitle,
+	g_ExtendedDisplayMenuItems,
 	NULL,
 	MENUDIALOGFLAG_LITERAL_TEXT | MENUDIALOGFLAG_STARTSELECTS,
 	NULL,
@@ -2249,6 +2318,15 @@ static MenuItemHandlerResult menuhandlerOpenEBMenu(s32 operation, struct menuite
 	if (operation == MENUOP_SET) {
 		g_ExtNextDialog = &g_ExtendedEBMenuDialog;
 		menuPushDialog(&g_ExtendedEBMenuDialog);
+	}
+	return 0;
+}
+
+static MenuItemHandlerResult menuhandlerOpenDisplayMenu(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+	if (operation == MENUOP_SET) {
+		g_ExtNextDialog = &g_ExtendedDisplayMenuDialog;
+		menuPushDialog(&g_ExtendedDisplayMenuDialog);
 	}
 	return 0;
 }
@@ -2301,6 +2379,14 @@ struct menuitem g_ExtendedMenuItems[] = {
 		(uintptr_t)"Key Bindings\n",
 		0,
 		menuhandlerOpenBindsMenu,
+	},
+	{
+		MENUITEMTYPE_SELECTABLE,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Display\n",
+		0,
+		menuhandlerOpenDisplayMenu,
 	},
 	{
 		MENUITEMTYPE_SELECTABLE,
