@@ -615,7 +615,15 @@ void setupCreateObject(struct defaultobj *obj, s32 cmdindex)
  * The Marquis of Queensbury Rules (everyone unarmed) and Enemy Rockets cheats
  * are implemented here.
  */
- extern bool g_EnemyClassicWeapons;
+extern bool g_EnemyClassicWeapons;
+extern bool g_EnemyLXs;
+extern bool g_EnemySnipers;
+extern bool g_EnemyLaptops;
+extern bool g_EnemyUnarmedGun;
+extern bool g_EnemyGEWatch;
+extern bool g_EnemySuicidePill;
+extern bool g_EnemyUselessGun;
+
 void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 {
 	if (weapon->base.flags & OBJFLAG_ASSIGNEDTOCHR) {
@@ -689,7 +697,6 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 
 				        case WEAPON_DRAGON:
 						case WEAPON_SUPERDRAGON:
-				        case WEAPON_K7AVENGER:
 				            weapon->weaponnum = WEAPON_KF7SPECIAL;
 				            weapon->base.modelnum = MODEL_CHRKALASH;
 				            weapon->base.extrascale = 256;
@@ -702,17 +709,362 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 				            weapon->base.extrascale = 256;
 				            break;
 
-				        case WEAPON_SHOTGUN:
-				        case WEAPON_FARSIGHT:
-				        case WEAPON_COMBATKNIFE:
-				        case WEAPON_CROSSBOW:
-				        case WEAPON_TRANQUILIZER:
-				        case WEAPON_DEVASTATOR:
-				        case WEAPON_ROCKETLAUNCHER:
-				        case WEAPON_SLAYER:
-				            break;
+						case WEAPON_K7AVENGER:
+						// Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+						if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+							weapon->weaponnum = WEAPON_KF7SPECIAL;
+							weapon->base.modelnum = MODEL_CHRKALASH;
+							weapon->base.extrascale = 256;
+						}
+						break;
 				    }
 				}
+
+				if (g_EnemyLXs) {
+                    switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_DY357LX;
+						weapon->base.modelnum = MODEL_CHRDY357TRENT;
+						weapon->base.extrascale = 256;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_DY357LX;
+							weapon->base.modelnum = MODEL_CHRDY357TRENT;
+							weapon->base.extrascale = 256;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemySnipers) {
+                    switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_SNIPERRIFLE;
+						weapon->base.modelnum = MODEL_CHRSNIPERRIFLE;
+						weapon->base.extrascale = 256;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_SNIPERRIFLE;
+							weapon->base.modelnum = MODEL_CHRSNIPERRIFLE;
+							weapon->base.extrascale = 256;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemyLaptops) {
+                	switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_LAPTOPGUN;
+						weapon->base.modelnum = MODEL_CHRPCGUN;
+						weapon->base.extrascale = 256;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_LAPTOPGUN;
+							weapon->base.modelnum = MODEL_CHRPCGUN;
+							weapon->base.extrascale = 256;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemyUnarmedGun) {
+                	switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_UNARMED;
+						weapon->base.modelnum = MODEL_AF1_PHONE;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_UNARMED;
+							weapon->base.modelnum = MODEL_AF1_PHONE;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemyGEWatch) {
+                	switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_WATCHLASER;
+						weapon->base.modelnum = MODEL_AF1_PHONE;
+						weapon->base.extrascale = 256;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_WATCHLASER;
+							weapon->base.modelnum = MODEL_AF1_PHONE;
+							weapon->base.extrascale = 256;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemySuicidePill) {
+                	switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_SUICIDEPILL;
+						weapon->base.modelnum = MODEL_AF1_PHONE;
+						weapon->base.extrascale = 256;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_SUICIDEPILL;
+							weapon->base.modelnum = MODEL_AF1_PHONE;
+							weapon->base.extrascale = 256;
+                        }
+						break;
+                    }
+                }
+
+				if (g_EnemyUselessGun) {
+                	switch (weapon->weaponnum) {
+					case WEAPON_FALCON2:
+					case WEAPON_FALCON2_SILENCER:
+					case WEAPON_FALCON2_SCOPE:
+					case WEAPON_MAGSEC4:
+					case WEAPON_MAULER:
+					case WEAPON_PHOENIX:
+					case WEAPON_DY357MAGNUM:
+					case WEAPON_DY357LX:
+					case WEAPON_CMP150:
+					case WEAPON_CYCLONE:
+					case WEAPON_CALLISTO:
+					case WEAPON_RCP120:
+					case WEAPON_LAPTOPGUN:
+					case WEAPON_DRAGON:
+					case WEAPON_AR34:
+					case WEAPON_SUPERDRAGON:
+					case WEAPON_SHOTGUN:
+					case WEAPON_REAPER:
+					case WEAPON_SNIPERRIFLE:
+					case WEAPON_FARSIGHT:
+					case WEAPON_DEVASTATOR:
+					case WEAPON_ROCKETLAUNCHER:
+					case WEAPON_SLAYER:
+					case WEAPON_COMBATKNIFE:
+					case WEAPON_CROSSBOW:
+					case WEAPON_TRANQUILIZER:
+					case WEAPON_GRENADE:
+					case WEAPON_NBOMB:
+					case WEAPON_TIMEDMINE:
+					case WEAPON_PROXIMITYMINE:
+					case WEAPON_REMOTEMINE:
+						weapon->weaponnum = WEAPON_NONE;
+						break;
+                    case WEAPON_K7AVENGER:
+                        // Don't replace the K7 guard's weapon in Investigation
+						// because it would make an objective impossible.
+						// @bug: It's still replaced on PD mode difficulty.
+                        if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
+                            weapon->weaponnum = WEAPON_NONE;
+                        }
+						break;
+                    }
+                }
 
 				if (cheatIsActive(CHEAT_ENEMYROCKETS)) {
 					switch (weapon->weaponnum) {

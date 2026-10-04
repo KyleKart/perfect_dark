@@ -4121,7 +4121,15 @@ bool aiSpawnChrAtChr(void)
 /**
  * @cmd 00c8
  */
- extern bool g_EnemyClassicWeapons;
+extern bool g_EnemyClassicWeapons;
+extern bool g_EnemyLXs;
+extern bool g_EnemySnipers;
+extern bool g_EnemyLaptops;
+extern bool g_EnemyUnarmedGun;
+extern bool g_EnemyGEWatch;
+extern bool g_EnemySuicidePill;
+extern bool g_EnemyUselessGun;
+
 bool aiTryEquipWeapon(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
@@ -4244,7 +4252,6 @@ bool aiTryEquipWeapon(void)
                     break;
                 case WEAPON_DRAGON:
                 case WEAPON_SUPERDRAGON:
-                case WEAPON_K7AVENGER:
                     cmd[4] = WEAPON_KF7SPECIAL;
                     model = MODEL_CHRKALASH;
                     break;
@@ -4253,8 +4260,340 @@ bool aiTryEquipWeapon(void)
                     cmd[4] = WEAPON_AR53;
                     model = MODEL_CHRM16;
                     break;
+				case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRKALASH, WEAPON_KF7SPECIAL, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
             }
             prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+		} else if (g_EnemyLXs) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRDY357TRENT, WEAPON_DY357LX, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRDY357TRENT, WEAPON_DY357LX, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemySnipers) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRSNIPERRIFLE, WEAPON_SNIPERRIFLE, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRSNIPERRIFLE, WEAPON_SNIPERRIFLE, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemyLaptops) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRPCGUN, WEAPON_LAPTOPGUN, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRPCGUN, WEAPON_LAPTOPGUN, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemyUnarmedGun) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_UNARMED, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_UNARMED, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemyGEWatch) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_WATCHLASER, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_WATCHLASER, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemySuicidePill) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_SUICIDEPILL, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_AF1_PHONE, WEAPON_SUICIDEPILL, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
+		} else if (g_EnemyUselessGun) {
+		switch (cmd[4]) {
+			case WEAPON_FALCON2:
+			case WEAPON_FALCON2_SILENCER:
+			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_MAGSEC4:
+			case WEAPON_MAULER:
+			case WEAPON_PHOENIX:
+			case WEAPON_DY357MAGNUM:
+			case WEAPON_DY357LX:
+			case WEAPON_CMP150:
+			case WEAPON_CYCLONE:
+			case WEAPON_CALLISTO:
+			case WEAPON_RCP120:
+			case WEAPON_LAPTOPGUN:
+			case WEAPON_DRAGON:
+			case WEAPON_AR34:
+			case WEAPON_SUPERDRAGON:
+			case WEAPON_SHOTGUN:
+			case WEAPON_REAPER:
+			case WEAPON_SNIPERRIFLE:
+			case WEAPON_FARSIGHT:
+			case WEAPON_DEVASTATOR:
+			case WEAPON_ROCKETLAUNCHER:
+			case WEAPON_SLAYER:
+			case WEAPON_COMBATKNIFE:
+			case WEAPON_CROSSBOW:
+			case WEAPON_TRANQUILIZER:
+			case WEAPON_GRENADE:
+			case WEAPON_NBOMB:
+			case WEAPON_TIMEDMINE:
+			case WEAPON_PROXIMITYMINE:
+			case WEAPON_REMOTEMINE:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, WEAPON_NONE, flags);
+				break;
+			case WEAPON_K7AVENGER:
+				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				} else {
+					prop = chrGiveWeapon(g_Vars.chrdata, model, WEAPON_NONE, flags);
+				}
+				break;
+			default:
+				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+				break;
+			}
 		} else {
 			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
 		}

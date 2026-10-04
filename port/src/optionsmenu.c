@@ -227,13 +227,194 @@ static MenuItemHandlerResult menuhandlerTrueUnlimitedAmmo(s32 operation, struct 
 }
 
 bool g_EnemyClassicWeapons = false;
-static MenuItemHandlerResult menuhandlerEnemyClassicWeapons(s32 operation, struct menuitem *item, union handlerdata *data)
+bool g_EnemyLXs = false;
+bool g_EnemySnipers = false;
+bool g_EnemyLaptops = false;
+bool g_EnemyUnarmedGun = false;
+bool g_EnemyGEWatch = false;
+bool g_EnemySuicidePill = false;
+bool g_EnemyUselessGun = false;
+
+static s32 g_EnemyWeaponName = 0;
+static MenuItemHandlerResult menuhandlerEnemyWeaponMode(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    static const char *opts[] = {
+        "Default",
+		"Unarmed Gun",
+        "Classic",
+        "DY357-LX",
+        "Sniper Rifle",
+		"Laptop Gun",
+		"Watch Laser",
+		"Suicide Pill",
+		"Usless Gun"
+    };
+
+    switch (operation) {
+    case MENUOP_GETOPTIONCOUNT:
+        data->dropdown.value = ARRAYCOUNT(opts);
+        break;
+    case MENUOP_GETOPTIONTEXT:
+        return (intptr_t)opts[data->dropdown.value];
+    case MENUOP_SET:
+        g_EnemyWeaponName = data->dropdown.value;
+
+        g_EnemyClassicWeapons = false;
+        g_EnemyLXs = false;
+        g_EnemySnipers = false;
+		g_EnemyLaptops = false;
+		g_EnemyUnarmedGun = false;
+		g_EnemyGEWatch = false;
+		g_EnemySuicidePill = false;
+		g_EnemyUselessGun = false;
+
+        switch (g_EnemyWeaponName) {
+		case 1:
+            g_EnemyUnarmedGun = true;
+            break;
+        case 2:
+            g_EnemyClassicWeapons = true;
+            break;
+        case 3:
+            g_EnemyLXs = true;
+            break;
+        case 4:
+            g_EnemySnipers = true;
+            break;
+        case 5:
+            g_EnemyLaptops = true;
+            break;
+		case 6:
+            g_EnemyGEWatch = true;
+            break;
+		case 7:
+            g_EnemySuicidePill = true;
+            break;
+		case 8:
+            g_EnemyUselessGun = true;
+            break;
+        }
+        break;
+    case MENUOP_GETSELECTEDINDEX:
+        data->dropdown.value = g_EnemyWeaponName;
+        break;
+    }
+
+    return 0;
+}
+
+bool g_JoltSims = false;
+static MenuItemHandlerResult menuhandlerJoltSims(s32 operation, struct menuitem *item, union handlerdata *data)
 {
     switch (operation) {
     case MENUOP_GET:
-        return g_EnemyClassicWeapons;
+        return g_JoltSims;
     case MENUOP_SET:
-        g_EnemyClassicWeapons = data->checkbox.value;
+        g_JoltSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltTurtleSims = false;
+static MenuItemHandlerResult menuhandlerJoltTurtleSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltTurtleSims;
+    case MENUOP_SET:
+        g_JoltTurtleSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltSpeedSims = false;
+static MenuItemHandlerResult menuhandlerJoltSpeedSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltSpeedSims;
+    case MENUOP_SET:
+        g_JoltSpeedSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltMeatSims = false;
+static MenuItemHandlerResult menuhandlerJoltMeatSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltMeatSims;
+    case MENUOP_SET:
+        g_JoltMeatSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltEasySims = false;
+static MenuItemHandlerResult menuhandlerJoltEasySim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltEasySims;
+    case MENUOP_SET:
+        g_JoltEasySims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltNormalSims = false;
+static MenuItemHandlerResult menuhandlerJoltNormalSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltNormalSims;
+    case MENUOP_SET:
+        g_JoltNormalSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltHardSims = false;
+static MenuItemHandlerResult menuhandlerJoltHardSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltHardSims;
+    case MENUOP_SET:
+        g_JoltHardSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltPerfectSims = false;
+static MenuItemHandlerResult menuhandlerJoltPerfectSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltPerfectSims;
+    case MENUOP_SET:
+        g_JoltPerfectSims = data->checkbox.value;
+        break;
+    }
+    return 0;
+}
+
+bool g_JoltDarkSims = false;
+static MenuItemHandlerResult menuhandlerJoltDarkSim(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+    switch (operation) {
+    case MENUOP_GET:
+        return g_JoltDarkSims;
+    case MENUOP_SET:
+        g_JoltDarkSims = data->checkbox.value;
         break;
     }
     return 0;
@@ -2081,21 +2262,13 @@ struct menuitem g_ExtendedEBMenuItems[] = {
 		NULL,
 	},
 	{
-		MENUITEMTYPE_CHECKBOX,
-		0,
-		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Enemy Classic Weapons\n",
-		0,
-		menuhandlerEnemyClassicWeapons,
-	},
-	{
-		MENUITEMTYPE_LABEL,
-		0,
-		MENUITEMFLAG_LITERAL_TEXT,
-		(uintptr_t)"Gives enemies classic weapons.\n",
-		0,
-		NULL,
-	},
+        MENUITEMTYPE_DROPDOWN,
+        0,
+        MENUITEMFLAG_LITERAL_TEXT,
+        (uintptr_t)"Enemy Weapons\n",
+        0,
+        menuhandlerEnemyWeaponMode,
+    },
 	{
 		MENUITEMTYPE_SEPARATOR,
 		0,

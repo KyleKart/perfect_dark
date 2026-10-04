@@ -38,6 +38,16 @@
 #define PICKUPCRITERIA_CRITICAL 1
 #define PICKUPCRITERIA_ANY      2
 
+extern bool g_JoltSims;
+extern bool g_JoltTurtleSims;
+extern bool g_JoltSpeedSims;
+extern bool g_JoltMeatSims;
+extern bool g_JoltEasySims;
+extern bool g_JoltNormalSims;
+extern bool g_JoltHardSims;
+extern bool g_JoltPerfectSims;
+extern bool g_JoltDarkSims;
+
 struct chrdata *g_MpBotChrPtrs[MAX_BOTS];
 
 u8 g_BotCount = 0;
@@ -1065,55 +1075,82 @@ s32 botTick(struct prop *prop)
 
 f32 botCalculateMaxSpeed(struct chrdata *chr)
 {
-	f32 speed;
+    f32 speed;
 
-	if (chr->aibot->hascase || chr->aibot->hasbriefcase) {
-		speed = -63.600006103516f;
-	} else {
-		speed = g_HeadsAndBodies[chr->bodynum].height * (1.0f / 159.0f);
-	}
+    if (chr->aibot->hascase || chr->aibot->hasbriefcase) {
+        speed = -63.600006103516f;
+    } else {
+        speed = g_HeadsAndBodies[chr->bodynum].height * (1.0f / 159.0f);
+    }
 
-	speed = speed * 0.002830188954249f + 1.0f;
+    speed = speed * 0.002830188954249f + 1.0f;
 
-	if (chr->aibot->config->type == BOTTYPE_TURTLE) {
-		speed *= 3.5f;
-	} else if (chr->aibot->config->type == BOTTYPE_SPEED) {
-		speed *= 14.0f;
-	} else {
-		switch (chr->aibot->config->difficulty) {
-		case BOTDIFF_MEAT:
-			speed *= 5.0f;
-			break;
-		case BOTDIFF_EASY:
-			speed *= 6.2f;
-			break;
-		default:
-		case BOTDIFF_NORMAL:
-			speed *= 7.6f;
-			break;
-		case BOTDIFF_HARD:
-			speed *= 9.4f;
-			break;
-		case BOTDIFF_PERFECT:
-			speed *= 11.2f;
-			break;
-		case BOTDIFF_DARK:
-			speed *= 11.2f;
-			break;
-		}
-	}
+    float base_speed = 7.6f;
+    bool is_jolt_active = false;
 
-	if (botGuessCrouchPos(chr) == CROUCHPOS_SQUAT) {
-		speed *= 0.35f;
-	} else if (botGuessCrouchPos(chr) == CROUCHPOS_DUCK) {
-		speed *= 0.5f;
-	} else if (chr->actiontype == ACT_GOPOS
-			&& chr->act_gopos.waypoints[chr->act_gopos.curindex] == NULL
-			&& chrGetLateralDistanceToCoord(chr, &chr->act_gopos.endpos) < 200) {
-		speed *= 0.5f;
-	}
+    if (chr->aibot->config->type == BOTTYPE_TURTLE) {
+        base_speed = 3.5f;
+        is_jolt_active = g_JoltSims || g_JoltTurtleSims;
+    } else if (chr->aibot->config->type == BOTTYPE_SPEED) {
+        base_speed = 14.0f;
+        is_jolt_active = g_JoltSims || g_JoltSpeedSims;
+    } else {
+        switch (chr->aibot->config->difficulty) {
+        case BOTDIFF_MEAT:
+            base_speed = 5.0f;
+            is_jolt_active = g_JoltSims || g_JoltMeatSims;
+            break;
+        case BOTDIFF_EASY:
+            base_speed = 6.2f;
+            is_jolt_active = g_JoltSims || g_JoltEasySims;
+            break;
+        default:
+        case BOTDIFF_NORMAL:
+            base_speed = 7.6f;
+            is_jolt_active = g_JoltSims || g_JoltNormalSims;
+            break;
+        case BOTDIFF_HARD:
+            base_speed = 9.4f;
+            is_jolt_active = g_JoltSims || g_JoltHardSims;
+            break;
+        case BOTDIFF_PERFECT:
+            base_speed = 11.2f;
+            is_jolt_active = g_JoltSims || g_JoltPerfectSims;
+            break;
+        case BOTDIFF_DARK:
+            base_speed = 11.2f;
+            is_jolt_active = g_JoltSims || g_JoltDarkSims;
+            break;
+        }
+    }
 
-	return speed;
+    if (is_jolt_active) {
+        int cycle_length = 120 + (int)((14.0f - base_speed) * 12.0f);
+        
+        int burst_window = 40;
+        int burst_threshold = cycle_length - burst_window;
+
+        int cycle_pos = g_Vars.lvframe60 % cycle_length;
+        
+        float burst_speed = base_speed * 2.2f; 
+        float chosen_speed = (cycle_pos >= burst_threshold) ? burst_speed : base_speed;
+        speed *= chosen_speed;
+    } else {
+        speed *= base_speed;
+    }
+
+    if (botGuessCrouchPos(chr) == CROUCHPOS_SQUAT) {
+            speed *= 0.35f;
+    } else if (botGuessCrouchPos(chr) == CROUCHPOS_DUCK) {
+            speed *= 0.5f;
+
+    } else if (chr->actiontype == ACT_GOPOS
+            && chr->act_gopos.waypoints[chr->act_gopos.curindex] == NULL
+            && chrGetLateralDistanceToCoord(chr, &chr->act_gopos.endpos) < 200) {
+            speed *= 0.5f;
+    }
+
+    return speed;
 }
 
 #if VERSION >= VERSION_NTSC_1_0
