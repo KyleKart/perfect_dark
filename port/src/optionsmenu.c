@@ -247,7 +247,7 @@ static MenuItemHandlerResult menuhandlerEnemyWeaponMode(s32 operation, struct me
 		"Laptop Gun",
 		"Watch Laser",
 		"Suicide Pill",
-		"Usless Gun"
+		"Useless Gun"
     };
 
     switch (operation) {
